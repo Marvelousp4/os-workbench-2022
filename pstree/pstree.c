@@ -14,8 +14,8 @@ bool showPid()
     printf("%s", buffer);
     token = strtok(buffer, " ");
     while (token != NULL) {
-        printf("Token %s ", token);
-        printf("Token+1 %s ", token + 1);
+        printf("Token %s\n", token);
+        printf("Token+1 %s\n", token + 1);
         token = strtok(NULL, " ");
     }
     pclose(fp);
