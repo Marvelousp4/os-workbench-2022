@@ -20,7 +20,7 @@ bool showPid()
         pid = atoi(buf);
         if (pid) {
             process[count++] = pid;
-            printf("%d\n", process[count]);
+            printf("%d\n", process[count - 1]);
         }
         memset(buf, 0x0, sizeof buf);
     }
