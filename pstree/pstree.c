@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <unistd.h>
 
@@ -14,7 +15,7 @@ int main(int argc, char* argv[])
             printf("option=b, optopt=%c, optarg=%s\n", optopt, optarg);
             break;
         case 'V':
-            printf("option=c, optopt=%c, optarg=%s\n", optopt, optarg);
+            PrintVersion();
             break;
         default:
             printf("default, result=%c\n", result);
@@ -35,7 +36,13 @@ bool numericSort()
     return 0;
 }
 
-bool version()
+bool PrintVersion()
 {
+    printf("pstree (PSmisc) 23.4\
+Copyright (C) 1993-2020 Werner Almesberger and Craig Small\
+PSmisc comes with ABSOLUTELY NO WARRANTY.\
+This is free software, and you are welcome to redistribute it under\
+the terms of the GNU General Public License.\
+For more information about these matters, see the files named COPYING.");
     return 0;
 }
