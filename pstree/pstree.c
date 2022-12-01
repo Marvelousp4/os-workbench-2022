@@ -18,7 +18,7 @@ bool showPid()
     while (fgets(buf, sizeof(buf), fp) != 0) {
         pid = atoi(buf);
         if (pid) {
-            printf("%d", pid);
+            printf("%d\n", pid);
         }
         memset(buf, 0x0, sizeof buf);
     }
