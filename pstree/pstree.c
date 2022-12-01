@@ -3,6 +3,10 @@
 #include <stdio.h>
 #include <unistd.h>
 
+bool showPid();
+bool numericSort();
+bool version();
+
 int main(int argc, char* argv[])
 {
     int result;
@@ -15,7 +19,7 @@ int main(int argc, char* argv[])
             printf("option=b, optopt=%c, optarg=%s\n", optopt, optarg);
             break;
         case 'V':
-            PrintVersion();
+            version();
             break;
         default:
             printf("default, result=%c\n", result);
@@ -36,7 +40,7 @@ bool numericSort()
     return 0;
 }
 
-bool PrintVersion()
+bool version()
 {
     printf("pstree (PSmisc) 23.4\
 Copyright (C) 1993-2020 Werner Almesberger and Craig Small\
