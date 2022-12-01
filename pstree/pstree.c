@@ -5,15 +5,19 @@
 #include <string.h>
 #include <unistd.h>
 
+// strace可以查看所有系统调用
+// cat /proc/12434/status | grep PPid查看父进程
 bool showPid()
 {
     FILE* fp;
     char buf[80];
     char* token;
+    int processs[1000];
+    int pid;
     fp = popen("ls /proc/", "r");
     while (fgets(buf, sizeof(buf), fp) != 0) {
-        if (atoi(buf)) {
-            printf("%s", buf);
+        if (pid = atoi(buf)) {
+            printf("%d", pid);
         }
         memset(buf, 0x0, sizeof buf);
     }
