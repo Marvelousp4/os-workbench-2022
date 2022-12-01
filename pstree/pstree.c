@@ -7,18 +7,13 @@
 bool showPid()
 {
     FILE* fp;
-    char buffer[80];
+    char buf[80];
     char* token;
     fp = popen("ls /proc/", "r");
-    fgets(buffer, sizeof(buffer), fp);
-    printf("%s", buffer);
-    token = strtok(buffer, " ");
-    while (token != NULL) {
-        printf("Token %s\n", token);
-        printf("Token+1 %s\n", token + 8);
-        token = strtok(NULL, " ");
+    while (fgets(buf, sizeof(buf), fp) != 0) {
+        printf("%s\n", buf);
+        memset(buf, 0x0, sizeof buf);
     }
-    pclose(fp);
     return 0;
 }
 
