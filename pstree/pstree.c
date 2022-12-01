@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
     while ((result = getopt(argc, argv, "p::n::V::")) != -1) {
         switch (result) {
         case 'p':
-            printf("option=a, optopt=%c, optarg=%s\n", optopt, optarg);
+            showPid();
             break;
         case 'n':
             printf("option=b, optopt=%c, optarg=%s\n", optopt, optarg);
@@ -32,6 +32,12 @@ int main(int argc, char* argv[])
 
 bool showPid()
 {
+    FILE* fp;
+    char buffer[80];
+    fp = popen("ll /proc/", "r");
+    fgets(buffer, sizeof(buffer), fp);
+    printf("%s", buffer);
+    pclose(fp);
     return 0;
 }
 
