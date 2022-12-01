@@ -11,7 +11,9 @@ bool showPid()
     char* token;
     fp = popen("ls /proc/", "r");
     while (fgets(buf, sizeof(buf), fp) != 0) {
-        printf("%s", buf);
+        if (atoi(buf)) {
+            printf("%s", buf);
+        }
         memset(buf, 0x0, sizeof buf);
     }
     return 0;
