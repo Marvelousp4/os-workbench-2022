@@ -12,13 +12,13 @@ bool showPid()
     FILE* fp;
     char buf[80];
     char* token;
-    int process[1000];
+    int proces[1000];
     int pid, count = 0;
     fp = popen("ls /proc/", "r");
     while (fgets(buf, sizeof(buf), fp) != 0) {
         pid = atoi(buf);
         if (pid) {
-            process[count++] = pid;
+            proces[count++] = pid;
             printf("%d\n", pid);
         }
         memset(buf, 0x0, sizeof buf);
