@@ -12,7 +12,7 @@ bool showPid()
     FILE* fp;
     char buf[80];
     char* token;
-    int process[1000] = {};
+    int process[1000] = { 0 };
     int pid, count = 0;
     fp = popen("ls /proc/", "r");
     while (fgets(buf, sizeof(buf), fp) != 0) {
