@@ -34,7 +34,7 @@ bool showPid()
 {
     FILE* fp;
     char buffer[80];
-    fp = popen("ll /proc/", "r");
+    fp = popen("ls /proc/", "r");
     fgets(buffer, sizeof(buffer), fp);
     printf("%s", buffer);
     pclose(fp);
