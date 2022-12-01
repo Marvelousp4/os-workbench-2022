@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
             printf("default, result=%c\n", result);
             break;
         }
-        printf("argv[%d]=%s\n", optind, argv[optind]);
+        // printf("argv[%d]=%s\n", optind, argv[optind]);
     }
     return 0;
 }
@@ -44,7 +44,7 @@ bool version()
 {
     printf("pstree (PSmisc) 23.4\n\
 Copyright (C) 1993-2020 Werner Almesberger and Craig Small\n\
-\
+\n \
 PSmisc comes with ABSOLUTELY NO WARRANTY.\n\
 This is free software, and you are welcome to redistribute it under\n\
 the terms of the GNU General Public License.\n\
