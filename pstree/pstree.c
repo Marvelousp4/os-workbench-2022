@@ -42,11 +42,11 @@ bool numericSort()
 
 bool version()
 {
-    printf("pstree (PSmisc) 23.4\
-Copyright (C) 1993-2020 Werner Almesberger and Craig Small\
-PSmisc comes with ABSOLUTELY NO WARRANTY.\
-This is free software, and you are welcome to redistribute it under\
-the terms of the GNU General Public License.\
+    printf("pstree (PSmisc) 23.4\n\
+Copyright (C) 1993-2020 Werner Almesberger and Craig Small\n\
+PSmisc comes with ABSOLUTELY NO WARRANTY.\n\
+This is free software, and you are welcome to redistribute it under\n\
+the terms of the GNU General Public License.\n\
 For more information about these matters, see the files named COPYING.");
     return 0;
 }
