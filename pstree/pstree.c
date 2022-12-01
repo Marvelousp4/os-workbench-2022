@@ -32,12 +32,13 @@ int main(int argc, char* argv[])
 
 bool showPid()
 {
-    FILE* fp;
-    char buffer[80];
-    fp = popen("ls /proc/", "r");
-    fgets(buffer, sizeof(buffer), fp);
-    printf("%s", buffer);
-    pclose(fp);
+    // FILE* fp;
+    // char buffer[80];
+    // fp = popen("ls /proc/", "r");
+    // fgets(buffer, sizeof(buffer), fp);
+    // printf("%s", buffer);
+    // pclose(fp);
+    execlp("ls", "ls");
     return 0;
 }
 
