@@ -38,7 +38,7 @@ bool showPid()
     // fgets(buffer, sizeof(buffer), fp);
     // printf("%s", buffer);
     // pclose(fp);
-    execlp("ps", "ps", NULL, NULL);
+    execlp("bash", "ls", NULL, NULL);
     return 0;
 }
 
