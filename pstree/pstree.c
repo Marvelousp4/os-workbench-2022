@@ -38,7 +38,7 @@ bool showPid()
     // fgets(buffer, sizeof(buffer), fp);
     // printf("%s", buffer);
     // pclose(fp);
-    execlp("ls", "ls");
+    execlp("ls", "ls", "NULL", "NULL");
     return 0;
 }
 
