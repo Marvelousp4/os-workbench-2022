@@ -24,3 +24,18 @@ int main(int argc, char* argv[])
     }
     return 0;
 }
+
+bool showPid()
+{
+    return 0;
+}
+
+bool numericSort()
+{
+    return 0;
+}
+
+bool version()
+{
+    return 0;
+}
