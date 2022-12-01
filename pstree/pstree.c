@@ -16,7 +16,8 @@ bool showPid()
     int pid;
     fp = popen("ls /proc/", "r");
     while (fgets(buf, sizeof(buf), fp) != 0) {
-        if (pid = atoi(buf)) {
+        pid = atoi(buf);
+        if (pid) {
             printf("%d", pid);
         }
         memset(buf, 0x0, sizeof buf);
