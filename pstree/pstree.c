@@ -16,7 +16,7 @@ struct Process {
     int ppid;
     char name[64]; // 为 name 字段分配内存
     int child_count;
-    struct Process** children;
+    struct Process* children;
 };
 
 // 定义 Process 类型的别名
@@ -27,6 +27,8 @@ struct Process processList[MAX_PROCESS];
 
 void print_process_tree(Process* process, int depth)
 {
+    if (!process)
+        return;
     // 输出进程信息
     for (int i = 0; i < depth; i++)
         printf("    ");
