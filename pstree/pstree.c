@@ -23,7 +23,7 @@ struct Process {
 typedef struct Process Process;
 
 // 定义 processList 数组，它的元素是 Process 结构体类型的
-struct Process processList[MAX_PROCESS];
+Process* processList;
 
 void print_process_tree(Process* process, int depth)
 {
@@ -208,6 +208,8 @@ For more information about these matters, see the files named COPYING.");
 
 int main(int argc, char* argv[])
 {
+    // 为 processList 分配内存
+    processList = malloc(MAX_PROCESS * sizeof(Process));
     int result;
     while ((result = getopt(argc, argv, "p::n::V::")) != -1) {
         switch (result) {
@@ -226,5 +228,6 @@ int main(int argc, char* argv[])
         }
         // printf("argv[%d]=%s\n", optind, argv[optind]);
     }
+    free(processList);
     return 0;
 }
