@@ -23,7 +23,7 @@ struct Process {
 typedef struct Process Process;
 
 // 定义 ProcessList 数组，它的元素是 Process 结构体类型的
-struct Process process_list[MAX_PROCESS];
+struct Process ProcessList[MAX_PROCESS];
 
 void print_process_tree(Process* process, int depth)
 {
