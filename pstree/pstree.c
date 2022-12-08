@@ -5,6 +5,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <unistd.h>
+#define MAX_PROCESS 1000
 
 // strace可以查看所有系统调用
 // cat /proc/12434/status | grep PPid查看父进程
@@ -105,8 +106,8 @@ int get_process_list(ProcessList* process_list, int max_count)
 bool showPid()
 {
     // 获取进程列表
-    ProcessList process_list[1024];
-    int count = get_process_list(process_list, 1024);
+    ProcessList process_list[MAX_PROCESS];
+    int count = get_process_list(process_list, MAX_PROCESS);
     if (count == 0)
         return false;
 
