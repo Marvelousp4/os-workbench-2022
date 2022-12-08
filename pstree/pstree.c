@@ -8,23 +8,24 @@
 // cat /proc/12434/status | grep PPid查看父进程
 bool showPid()
 {
-    FILE* fp;
-    char buf[80];
-    char* token;
-    int process[1000];
-    memset(process, 0, sizeof(int) * 1000);
-    int pid, count = 0;
-    fp = popen("ls /proc/", "r");
-    while (fgets(buf, sizeof(buf), fp) != 0) {
-        pid = atoi(buf);
-        if (pid) {
-            process[count++] = pid;
-            printf("%d\n", process[count - 1]);
-        }
-        memset(buf, 0x0, sizeof buf);
-    }
-    pclose(fp);
-    return 0;
+    DIR* dir = opendir("/proc");
+    // FILE* fp;
+    // char buf[80];
+    // char* token;
+    // int process[1000];
+    // memset(process, 0, sizeof(int) * 1000);
+    // int pid, count = 0;
+    // fp = popen("ls /proc/", "r");
+    // while (fgets(buf, sizeof(buf), fp) != 0) {
+    //     pid = atoi(buf);
+    //     if (pid) {
+    //         process[count++] = pid;
+    //         printf("%d\n", process[count - 1]);
+    //     }
+    //     memset(buf, 0x0, sizeof buf);
+    // }
+    // pclose(fp);
+    // return 0;
 }
 
 bool numericSort()
