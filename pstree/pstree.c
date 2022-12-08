@@ -1,10 +1,8 @@
-#include <assert.h>
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
 #include <unistd.h>
-
 // strace可以查看所有系统调用
 // cat /proc/12434/status | grep PPid查看父进程
 bool showPid()
@@ -24,6 +22,7 @@ bool showPid()
         }
         memset(buf, 0x0, sizeof buf);
     }
+    pclose(fp);
     return 0;
 }
 
