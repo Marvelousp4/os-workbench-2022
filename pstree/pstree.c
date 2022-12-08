@@ -16,6 +16,8 @@ struct Process {
     char* name;
 } ProcessList[MAX_PROCESS];
 
+typedef struct Process Process;
+
 void print_process_tree(Process* process, int depth)
 {
     // 输出进程信息
