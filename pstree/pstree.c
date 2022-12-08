@@ -16,7 +16,7 @@ struct process {
     char* name;
 } Process;
 
-using ProcessList = Process[MAX_PROCESS];
+typedef struct Process ProcessList[MAX_PROCESS];
 
 void print_process_tree(Process* process, int depth)
 {
