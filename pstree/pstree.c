@@ -14,7 +14,7 @@
 struct Process {
     int pid;
     int ppid;
-    char* name[64]; // 为 name 字段分配内存
+    char* name = ''; // 为 name 字段分配内存
     int child_count;
     struct Process** children;
 };
