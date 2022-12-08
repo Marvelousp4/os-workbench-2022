@@ -112,7 +112,7 @@ int get_processList(struct Process* process_List, int max_count)
 bool showPid()
 {
     // 获取进程列表
-    processList processList[MAX_PROCESS];
+    Process processList[MAX_PROCESS];
     int count = get_processList(processList, MAX_PROCESS);
     if (count == 0)
         return false;
