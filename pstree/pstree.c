@@ -22,7 +22,7 @@ struct Process {
 // 定义 Process 类型的别名
 typedef struct Process Process;
 
-// 定义 ProcessList 数组，它的元素是 Process 结构体类型的
+// 定义 process_list 数组，它的元素是 Process 结构体类型的
 struct Process process_list[MAX_PROCESS];
 
 void print_process_tree(Process* process, int depth)
@@ -46,7 +46,7 @@ void free_process_tree(Process* process)
     free(process);
 }
 
-int get_process_list(ProcessList* process_list, int max_count)
+int get_process_list(process_list* process_list, int max_count)
 {
     int count = 0;
 
@@ -112,7 +112,7 @@ int get_process_list(ProcessList* process_list, int max_count)
 bool showPid()
 {
     // 获取进程列表
-    ProcessList process_list[MAX_PROCESS];
+    process_list process_list[MAX_PROCESS];
     int count = get_process_list(process_list, MAX_PROCESS);
     if (count == 0)
         return false;
