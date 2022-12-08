@@ -10,6 +10,31 @@
 bool showPid()
 {
     DIR* dir = opendir("/proc");
+    if (!dir) {
+        perror("opendir");
+        return 0;
+    }
+    struct dirent* ent;
+    while ((ent = readdir(dir)) != NULL) {
+        if (ent->d_type != DT_DIR)
+            continue;
+        int pid = atoi(ent->d_name);
+        if (pid == 0)
+            continue;
+        char path[64];
+        sprintf(path, sizeof(path), "/proc/%d/status", pid);
+        char name[64];
+        int ret = fscanf(fp, "Name: %s", name);
+        if (ret < 0) {
+            perror("fscanf");
+            fclose(fp);
+            continue;
+        }
+        fclose(fp);
+        printf("PID: %d, Name: %s", pid, name);
+    }
+    closedir(dir);
+    return 1;
     // FILE* fp;
     // char buf[80];
     // char* token;
