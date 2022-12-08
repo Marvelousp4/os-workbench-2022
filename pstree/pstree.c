@@ -23,6 +23,9 @@ bool showPid()
             continue;
         char path[64];
         sprintf(path, sizeof(path), "/proc/%d/status", pid);
+        FILE* fp = fopen(path, "r");
+        if (!fp)
+            continue;
         char name[64];
         int ret = fscanf(fp, "Name: %s", name);
         if (ret < 0) {
