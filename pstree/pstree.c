@@ -16,7 +16,7 @@ struct Process {
     int ppid;
     char* name;
     int child_count;
-    struct Process* children[MAX_PROCESS];
+    Process** children;
 };
 
 // 定义 Process 类型的别名
