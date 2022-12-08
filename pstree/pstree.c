@@ -10,16 +10,20 @@
 // strace可以查看所有系统调用
 // cat /proc/12434/status | grep PPid查看父进程
 
+// 定义 Process 结构体
 struct Process {
     int pid;
     int ppid;
     char* name;
     int child_count;
     struct Process* children[MAX_PROCESS];
-} ProcessList[MAX_PROCESS];
+};
 
+// 定义 Process 类型的别名
 typedef struct Process Process;
-Process process_list[MAX_PROCESS];
+
+// 定义 ProcessList 数组，它的元素是 Process 结构体类型的
+struct Process process_list[MAX_PROCESS];
 
 void print_process_tree(Process* process, int depth)
 {
