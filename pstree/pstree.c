@@ -14,6 +14,8 @@ struct Process {
     int pid;
     int ppid;
     char* name;
+    int child_count;
+    struct Process* children[MAX_PROCESS];
 } ProcessList[MAX_PROCESS];
 
 typedef struct Process Process;
