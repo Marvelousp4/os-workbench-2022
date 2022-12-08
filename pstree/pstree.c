@@ -46,7 +46,7 @@ void free_process_tree(Process* process)
     free(process);
 }
 
-int get_processList(processList* processList, int max_count)
+int get_processList(processList* process_List, int max_count)
 {
     int count = 0;
 
@@ -100,9 +100,9 @@ int get_processList(processList* processList, int max_count)
         fclose(fp);
 
         // 保存进程信息
-        processList[count].pid = pid;
-        processList[count].ppid = ppid;
-        strcpy(processList[count].name, name);
+        process_List[count].pid = pid;
+        process_List[count].ppid = ppid;
+        strcpy(process_List[count].name, name);
         count++;
     }
     closedir(dir);
