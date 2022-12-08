@@ -46,7 +46,7 @@ void free_process_tree(Process* process)
     free(process);
 }
 
-int get_processList(processList* process_List, int max_count)
+int get_processList(struct Process* process_List, int max_count)
 {
     int count = 0;
 
