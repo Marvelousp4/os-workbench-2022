@@ -22,8 +22,8 @@ struct Process {
 // 定义 Process 类型的别名
 typedef struct Process Process;
 
-// 定义 process_list 数组，它的元素是 Process 结构体类型的
-struct Process process_list[MAX_PROCESS];
+// 定义 processList 数组，它的元素是 Process 结构体类型的
+struct Process processList[MAX_PROCESS];
 
 void print_process_tree(Process* process, int depth)
 {
@@ -46,7 +46,7 @@ void free_process_tree(Process* process)
     free(process);
 }
 
-int get_process_list(process_list* process_list, int max_count)
+int get_processList(processList* processList, int max_count)
 {
     int count = 0;
 
@@ -100,9 +100,9 @@ int get_process_list(process_list* process_list, int max_count)
         fclose(fp);
 
         // 保存进程信息
-        process_list[count].pid = pid;
-        process_list[count].ppid = ppid;
-        strcpy(process_list[count].name, name);
+        processList[count].pid = pid;
+        processList[count].ppid = ppid;
+        strcpy(processList[count].name, name);
         count++;
     }
     closedir(dir);
@@ -112,8 +112,8 @@ int get_process_list(process_list* process_list, int max_count)
 bool showPid()
 {
     // 获取进程列表
-    process_list process_list[MAX_PROCESS];
-    int count = get_process_list(process_list, MAX_PROCESS);
+    processList processList[MAX_PROCESS];
+    int count = get_processList(processList, MAX_PROCESS);
     if (count == 0)
         return false;
 
@@ -121,9 +121,9 @@ bool showPid()
     Process* root = NULL;
     for (int i = 0; i < count; i++) {
         Process* process = (Process*)malloc(sizeof(Process));
-        process->pid = process_list[i].pid;
-        process->ppid = process_list[i].ppid;
-        strcpy(process->name, process_list[i].name);
+        process->pid = processList[i].pid;
+        process->ppid = processList[i].ppid;
+        strcpy(process->name, processList[i].name);
         process->children = NULL;
         process->child_count = 0;
 
@@ -133,11 +133,11 @@ bool showPid()
 
         // 找到父进程
         for (int j = 0; j < count; j++) {
-            if (process_list[j].pid == process->ppid) {
+            if (processList[j].pid == process->ppid) {
                 Process* parent = (Process*)malloc(sizeof(Process));
-                parent->pid = process_list[j].pid;
-                parent->ppid = process_list[j].ppid;
-                strcpy(parent->name, process_list[j].name);
+                parent->pid = processList[j].pid;
+                parent->ppid = processList[j].ppid;
+                strcpy(parent->name, processList[j].name);
                 parent->children = NULL;
                 parent->child_count = 0;
 
