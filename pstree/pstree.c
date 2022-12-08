@@ -11,12 +11,11 @@
 // cat /proc/12434/status | grep PPid查看父进程
 
 struct Process {
-    int pid; // 进程的编号
-    int ppid; // 进程的父进程编号
-    char name; // 进程的名字
-    Process** children; // 进程的子进程
-    int child_count; // 子进程的数量
+    int pid;
+    int ppid;
+    char* name;
 };
+
 typedef Process ProcessList[MAX_PROCESS];
 
 void print_process_tree(Process* process, int depth)
