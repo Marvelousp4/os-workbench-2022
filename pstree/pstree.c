@@ -19,6 +19,7 @@ struct Process {
 } ProcessList[MAX_PROCESS];
 
 typedef struct Process Process;
+Process process_list[MAX_PROCESS];
 
 void print_process_tree(Process* process, int depth)
 {
