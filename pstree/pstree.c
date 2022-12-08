@@ -10,7 +10,7 @@
 // strace可以查看所有系统调用
 // cat /proc/12434/status | grep PPid查看父进程
 
-struct process {
+struct Process {
     int pid;
     int ppid;
     char* name;
