@@ -66,11 +66,12 @@ int get_process_list(struct Process* process_List, int max_count)
         if (ent->d_type != DT_DIR)
             continue;
 
+        char name[64];
+        strcpy(name, ent->d_name);
         // 获取进程号
-        int pid = atoi(ent->d_name);
+        int pid = atoi(name);
         if (pid == 0)
             continue;
-
         // 获取进程的状态文件
         char path[64];
         sprintf(path, "/proc/%d/status", pid);
