@@ -1,5 +1,6 @@
 #include <dirent.h>
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,7 +23,6 @@ struct Process {
 // 定义 Process 类型的别名
 typedef struct Process Process;
 
-// 定义 processList 数组，它的元素是 Process 结构体类型的
 Process* processList;
 
 void print_process_tree(Process* process, int depth)
@@ -36,19 +36,19 @@ void print_process_tree(Process* process, int depth)
 
     // 递归输出子进程
     for (int i = 0; i < process->child_count; i++)
-        print_process_tree(process->children[i], depth + 1);
+        print_process_tree(&process->children[i], depth + 1);
 }
 
 void free_process_tree(Process* process)
 {
     // 递归释放子进程
     for (int i = 0; i < process->child_count; i++)
-        free_process_tree(process->children[i]);
+        free_process_tree(&process->children[i]);
     free(process->children);
     free(process);
 }
 
-int get_processList(struct Process* process_List, int max_count)
+int get_process_list(struct Process* process_List, int max_count)
 {
     int count = 0;
 
@@ -86,13 +86,9 @@ int get_processList(struct Process* process_List, int max_count)
             fclose(fp);
             continue;
         }
-        fclose(fp);
-
         // 读取进程的父进程号
-        fp = fopen(path, "r");
-        if (!fp)
-            continue;
         int ppid = -1;
+        rewind(fp); // 重置文件指针到文件开头
         ret = fscanf(fp, "PPid: %d", &ppid);
         if (ret < 0) {
             perror("fscanf");
@@ -113,14 +109,16 @@ int get_processList(struct Process* process_List, int max_count)
 
 bool showPid()
 {
+    processList = (Process*)malloc(sizeof(Process) * MAX_PROCESS);
+
     // 获取进程列表
-    Process processList[MAX_PROCESS];
-    int count = get_processList(processList, MAX_PROCESS);
+    int count = get_process_list(processList, MAX_PROCESS);
     if (count == 0)
         return false;
 
     // 构建进程树
     Process* root = NULL;
+    // 创建count个Process
     for (int i = 0; i < count; i++) {
         Process* process = (Process*)malloc(sizeof(Process));
         process->pid = processList[i].pid;
@@ -146,7 +144,7 @@ bool showPid()
                 // 添加子进程
                 parent->child_count++;
                 parent->children = (Process**)realloc(parent->children, sizeof(Process*) * parent->child_count);
-                parent->children[parent->child_count - 1] = process;
+                parent->children[parent->child_count - 1] = *process;
                 break;
             }
         }
@@ -208,9 +206,8 @@ For more information about these matters, see the files named COPYING.");
 
 int main(int argc, char* argv[])
 {
-    // 为 processList 分配内存
-    processList = malloc(MAX_PROCESS * sizeof(Process));
-    int result;
+    int result, optopt;
+    char* optarg;
     while ((result = getopt(argc, argv, "p::n::V::")) != -1) {
         switch (result) {
         case 'p':
@@ -228,6 +225,5 @@ int main(int argc, char* argv[])
         }
         // printf("argv[%d]=%s\n", optind, argv[optind]);
     }
-    free(processList);
     return 0;
 }
