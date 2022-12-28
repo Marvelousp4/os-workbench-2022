@@ -65,9 +65,8 @@ int get_process_list(struct Process* process_List, int max_count)
         // 跳过非目录文件
         if (ent->d_type != DT_DIR)
             continue;
-
         char tname[64];
-        strcpy(tname, ent->d_name);
+        sscanf(ent->d_name, "%s", tname);
         // 获取进程号
         int pid = atoi(tname);
         if (pid == 0)
