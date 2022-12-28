@@ -65,12 +65,15 @@ int get_process_list(struct Process* process_List, int max_count)
         // 跳过非目录文件
         if (ent->d_type != DT_DIR)
             continue;
-        char tname[64];
-        sscanf(ent->d_name, "%s", tname);
+
         // 获取进程号
-        int pid = atoi(tname);
-        if (pid == 0)
+        char* endptr;
+        int pid = strtol(ent->d_name, &endptr, 10);
+        if (*endptr != '\0') {
+            // 字符串中包含了无效的字符，跳过
             continue;
+        }
+
         // 获取进程的状态文件
         char path[64];
         sprintf(path, "/proc/%d/status", pid);
