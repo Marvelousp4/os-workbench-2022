@@ -83,15 +83,18 @@ int get_process_list(struct Process* process_List, int max_count)
 
         // 读取进程的名称
         char name[64];
-        int ret = fscanf(fp, "Name: %s", name);
+        int ret = fscanf(fp, "Name: %[a-zA-Z]", name);
         if (ret < 0) {
             perror("fscanf");
             fclose(fp);
             continue;
         }
+        fclose(fp);
+        fp = fopen(path, "r");
+        if (!fp)
+            continue;
         // 读取进程的父进程号
         int ppid = -1;
-        rewind(fp); // 重置文件指针到文件开头
         ret = fscanf(fp, "PPid: %d", &ppid);
         if (ret < 0) {
             perror("fscanf");
