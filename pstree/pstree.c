@@ -81,24 +81,39 @@ int get_process_list(struct Process* process_List, int max_count)
         if (!fp)
             continue;
 
-        // 读取进程的名称
-        char name[64];
-        int ret = fscanf(fp, "Name:   %s\n", name);
-        if (ret < 0) {
-            perror("fscanf");
+        // 读取文件中的第一行（Name）
+        char line[128];
+        if (fgets(line, sizeof(line), fp) == NULL) {
+            perror("fgets");
             fclose(fp);
             continue;
         }
 
-        // 读取进程的父进程号
-        int ppid = -1;
-        rewind(fp); // 重置文件指针到文件开头
-        ret = fscanf(fp, "PPid:   %d\n", &ppid);
-        if (ret < 0) {
-            perror("fscanf");
+        // 解析 Name 信息
+        char name[64];
+        if (sscanf(line, "Name: %s", name) < 0) {
+            perror("sscanf");
             fclose(fp);
             continue;
         }
+
+        // 读取文件中的第七行（PPid）
+        for (int i = 0; i < 6; i++) {
+            if (fgets(line, sizeof(line), fp) == NULL) {
+                perror("fgets");
+                fclose(fp);
+                continue;
+            }
+        }
+
+        // 解析 PPid 信息
+        int ppid = -1;
+        if (sscanf(line, "PPid: %d", &ppid) < 0) {
+            perror("sscanf");
+            fclose(fp);
+            continue;
+        }
+
         fclose(fp);
 
         // 保存进程信息
