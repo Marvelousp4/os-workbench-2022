@@ -143,7 +143,7 @@ bool showPid()
 
                 // 添加子进程
                 parent->child_count++;
-                parent->children = (Process**)realloc(parent->children, sizeof(Process*) * parent->child_count);
+                parent->children = (Process*)realloc(parent->children, sizeof(Process) * parent->child_count);
                 parent->children[parent->child_count - 1] = *process;
                 break;
             }
