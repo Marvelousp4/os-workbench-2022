@@ -125,25 +125,30 @@ int get_process_list(struct Process* process_List, int max_count)
 Process* buildTree(Process* processList, int count)
 {
     Process* root = NULL;
-
+    Process* pointer = root;
+    // 遍历进程列表
     for (int i = 0; i < count; i++) {
-        Process* p = &processList[i];
-        if (root == NULL) {
-            root = p;
-            root->child_count = 0;
-            root->children = NULL;
-        } else if (p->ppid == root->pid) {
-            p->children = root->children;
-            root->children = p;
-            root->child_count++;
-        } else {
-            for (int j = 0; j < root->child_count; j++) {
-                Process* child = &root->children[j];
-                child = buildTree(child, count - i - 1);
+        Process* process = &processList[i];
+        if (process->pid == 1) {
+            root = process;
+            continue;
+        }
+        // 遍历进程列表，查找父进程
+        for (int j = 0; j < count; j++) {
+            Process* parent = &processList[j];
+            if (process->ppid == parent->pid) {
+                // 找到父进程，将子进程添加到父进程的 children 字段中
+                parent->child_count++;
+                parent->children = realloc(parent->children, sizeof(Process) * parent->child_count);
+                parent->children[parent->child_count - 1] = *process;
+                if (parent->pid == pointer->pid) {
+                    pointer = parent;
+                    pointer = &parent->children[parent->child_count - 1];
+                }
+                break;
             }
         }
     }
-
     return root;
 }
 
