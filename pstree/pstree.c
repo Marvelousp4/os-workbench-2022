@@ -125,16 +125,17 @@ int get_process_list(struct Process* process_List, int max_count)
 Process* buildTree(Process* processList, int count)
 {
     Process* root = NULL;
+
     for (int i = 0; i < count; i++) {
         Process* p = &processList[i];
-        if (p->ppid == root->pid) {
-            p->children = root->children;
-            root->children = p;
-            root->child_count++;
-        } else if (root == NULL) {
+        if (root == NULL) {
             root = p;
             root->child_count = 0;
             root->children = NULL;
+        } else if (p->ppid == root->pid) {
+            p->children = root->children;
+            root->children = p;
+            root->child_count++;
         } else {
             for (int j = 0; j < root->child_count; j++) {
                 Process* child = &root->children[j];
@@ -142,6 +143,7 @@ Process* buildTree(Process* processList, int count)
             }
         }
     }
+
     return root;
 }
 
