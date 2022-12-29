@@ -41,11 +41,11 @@ void print_process_tree(Process* process, int depth)
 
 void free_process_tree(Process* process)
 {
+    free(process);
     // 递归释放子进程
     for (int i = 0; i < process->child_count; i++)
         free_process_tree(&process->children[i]);
     free(process->children);
-    free(process);
 }
 
 int get_process_list(struct Process* process_List, int max_count)
@@ -226,7 +226,10 @@ int main(int argc, char* argv[])
     while ((result = getopt(argc, argv, "p::n::V::")) != -1) {
         switch (result) {
         case 'p':
-            showPid();
+            if (showPid()) {
+                processList = NULL;
+                free(processList);
+            }
             break;
         case 'n':
             printf("option=b, optopt=%c, optarg=%s\n", optopt, optarg);
