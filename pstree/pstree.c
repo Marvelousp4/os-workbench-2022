@@ -143,7 +143,7 @@ Process* buildTree(Process* processList, int count)
                 parent->children = realloc(parent->children, sizeof(Process) * parent->child_count);
                 parent->children[parent->child_count - 1] = *process;
                 if (parent->pid == pointer->pid) {
-                    pointer = parent;
+                    pointer->children = parent->children;
                     pointer = &parent->children[parent->child_count - 1];
                 }
                 break;
