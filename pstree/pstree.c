@@ -17,6 +17,7 @@ struct Process {
     int ppid;
     char name[64]; // 为 name 字段分配内存
     int child_count;
+    struct Process* parent; // 指向父进程的指针
     struct Process* children;
 };
 
@@ -153,6 +154,7 @@ bool showPid()
         for (int j = 0; j < count; j++) {
             if (processList[j].pid == process->ppid) {
                 Process* parent = &processList[j];
+                process->parent = parent; // 设置父进程指针
                 // 添加子进程
                 parent->child_count++;
                 parent->children = (Process*)realloc(parent->children, sizeof(Process) * parent->child_count);
