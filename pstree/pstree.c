@@ -96,7 +96,7 @@ int get_process_list(struct Process* process_List, int max_count)
             fclose(fp);
             continue;
         }
-        char* fname = strtok(name, "\000");
+        char* p1 = strtok(name, "\000");
 
         // 读取文件中的第七行（PPid）
         for (int i = 0; i < 6; i++) {
@@ -120,7 +120,7 @@ int get_process_list(struct Process* process_List, int max_count)
         // 保存进程信息
         process_List[count].pid = pid;
         process_List[count].ppid = ppid;
-        strcpy(process_List[count].name, fname);
+        strcpy(process_List[count].name, name);
         count++;
     }
     closedir(dir);
