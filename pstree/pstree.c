@@ -91,11 +91,12 @@ int get_process_list(struct Process* process_List, int max_count)
 
         char name[64];
         // 解析 Name 信息
-        if (sscanf(line, "Name:\t%[^\0]", name) < 0) {
+        if (sscanf(line, "Name:\t%s", name) < 0) {
             perror("sscanf");
             fclose(fp);
             continue;
         }
+        char* fname = strtok(name, "\000");
 
         // 读取文件中的第七行（PPid）
         for (int i = 0; i < 6; i++) {
