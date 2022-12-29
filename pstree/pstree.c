@@ -120,7 +120,7 @@ int get_process_list(struct Process* process_List, int max_count)
         // 保存进程信息
         process_List[count].pid = pid;
         process_List[count].ppid = ppid;
-        strcpy(process_List[count].name, name);
+        strcpy(process_List[count].name, fname);
         count++;
     }
     closedir(dir);
