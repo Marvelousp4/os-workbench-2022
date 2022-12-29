@@ -146,7 +146,7 @@ bool showPid()
         // 找到根进程
         if (process->ppid == 0) {
             root = process;
-            break;
+            continue;
         }
 
         // 找到父进程
