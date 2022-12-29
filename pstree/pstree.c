@@ -96,10 +96,6 @@ int get_process_list(struct Process* process_List, int max_count)
             fclose(fp);
             continue;
         }
-        char* p1 = strtok(name, "\000");
-
-        printf("%s", p1);
-        printf("Hello");
 
         // 读取文件中的第七行（PPid）
         for (int i = 0; i < 6; i++) {
@@ -123,7 +119,7 @@ int get_process_list(struct Process* process_List, int max_count)
         // 保存进程信息
         process_List[count].pid = pid;
         process_List[count].ppid = ppid;
-        strcpy(process_List[count].name, p1);
+        strcpy(process_List[count].name, name);
         count++;
     }
     closedir(dir);
@@ -157,13 +153,7 @@ bool showPid()
         // 找到父进程
         for (int j = 0; j < count; j++) {
             if (processList[j].pid == process->ppid) {
-                Process* parent = (Process*)malloc(sizeof(Process));
-                parent->pid = processList[j].pid;
-                parent->ppid = processList[j].ppid;
-                strcpy(parent->name, processList[j].name);
-                parent->children = NULL;
-                parent->child_count = 0;
-
+                Process* parent = &processList[j];
                 // 添加子进程
                 parent->child_count++;
                 parent->children = (Process*)realloc(parent->children, sizeof(Process) * parent->child_count);
