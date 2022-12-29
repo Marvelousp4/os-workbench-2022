@@ -139,7 +139,7 @@ bool showPid()
     Process* root = NULL;
     // 创建count个Process
     for (int i = 0; i < count; i++) {
-        Process* process = (Process*)malloc(sizeof(Process));
+        Process* process = &processList[i];
         process->pid = processList[i].pid;
         process->ppid = processList[i].ppid;
         strcpy(process->name, processList[i].name);
@@ -147,8 +147,10 @@ bool showPid()
         process->child_count = 0;
 
         // 找到根进程
-        if (process->ppid == 0)
+        if (process->ppid == 0) {
             root = process;
+            continue;
+        }
 
         // 找到父进程
         for (int j = 0; j < count; j++) {
