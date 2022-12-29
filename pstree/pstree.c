@@ -131,6 +131,7 @@ Process* buildTree(Process* processList, int count)
         Process* process = &processList[i];
         if (process->pid == 1) {
             root = process;
+            pointer = root;
             continue;
         }
         // 遍历进程列表，查找父进程
