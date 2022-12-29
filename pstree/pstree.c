@@ -41,6 +41,8 @@ void print_process_tree(Process* process, int depth)
 
 void free_process_tree(Process* process)
 {
+    if (!process)
+        return;
     free(process);
     // 递归释放子进程
     for (int i = 0; i < process->child_count; i++)
