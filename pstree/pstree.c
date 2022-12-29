@@ -144,7 +144,7 @@ Process* buildTree(Process* processList, int count)
                 parent->children[parent->child_count - 1] = *process;
                 if (parent->pid == pointer->pid) {
                     pointer->children = parent->children;
-                    pointer = &parent->children[parent->child_count - 1];
+                    pointer = parent;
                 }
                 break;
             }
