@@ -97,6 +97,7 @@ int get_process_list(struct Process* process_List, int max_count)
             continue;
         }
         char* p1 = strtok(name, "\000");
+        printf("%s", p1);
 
         // 读取文件中的第七行（PPid）
         for (int i = 0; i < 6; i++) {
