@@ -91,7 +91,7 @@ int get_process_list(struct Process* process_List, int max_count)
 
         // 解析 Name 信息
         char name[64];
-        if (sscanf(line, "Name: %s\0", name) < 0) {
+        if (sscanf(line, "Name: %s", name) < 0) {
             perror("sscanf");
             fclose(fp);
             continue;
