@@ -125,32 +125,21 @@ int get_process_list(struct Process* process_List, int max_count)
 Process* buildTree(Process* processList, int count)
 {
     Process* root = NULL;
-    Process* pointer = root;
-    // 将所有进程添加到父进程的子进程列表中
     for (int i = 0; i < count; i++) {
-        Process* process = &processList[i];
-        if (process->ppid == 0) {
-            // 进程的父进程是 init 进程，将其设置为根节点
-            root = process;
+        Process* p = &processList[i];
+        if (p->ppid == root->pid) {
+            p->children = root->children;
+            root->children = p;
+            root->child_count++;
+        } else if (root == NULL) {
+            root = p;
+            root->child_count = 0;
+            root->children = NULL;
         } else {
-            // 查找父进程
-            Process* parent = NULL;
-            for (int j = 0; j < count; j++) {
-                if (processList[j].pid == process->ppid) {
-                    parent = &processList[j];
-                    if (parent->pid == pointer->pid) {
-                        pointer = parent;
-                    }
-                    break;
-                }
+            for (int j = 0; j < root->child_count; j++) {
+                Process* child = &root->children[j];
+                child = buildTree(child, count - i - 1);
             }
-            if (!parent)
-                continue;
-            // 将进程添加到父进程的子进程列表中
-            parent->child_count++;
-            parent->children = realloc(parent->children, parent->child_count * sizeof(Process));
-            parent->children[parent->child_count - 1] = *process;
-            pointer = process;
         }
     }
     return root;
