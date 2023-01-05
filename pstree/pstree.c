@@ -172,8 +172,9 @@ struct Process* build_tree(struct Process* processList, int num_processes)
         } else {
             int parent_index = find_process(child_ppid, processList, num_processes);
             if (parent_index != -1) {
-                struct Process* parent = root->children[parent_index];
-                parent->children[parent->child_count] = create_node(processList[i].pid, processList[i].ppid, processList[i].name);
+                struct Process* parent = &processList[parent_index];
+                Process* child = create_node(processList[i].pid, processList[i].ppid, processList[i].name);
+                parent->children[parent->child_count] = child;
                 parent->child_count++;
             }
         }
