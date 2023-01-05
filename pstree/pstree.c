@@ -141,6 +141,9 @@ struct Process* create_node(int pid, int ppid, char* name)
     strcpy(node->name, name);
     node->child_count = 0;
     node->children = malloc(sizeof(struct Process*) * MAX_PROCESS);
+    for (int i = 0; i < MAX_PROCESS; i++) {
+        node->children[i] = NULL;
+    }
     return node;
 }
 
