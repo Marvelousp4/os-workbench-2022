@@ -179,7 +179,7 @@ bool showPid()
     Process* root = build_tree(processList, count);
 
     // 输出进程树
-    printTree(root, 0);
+    print_Tree(root, 0);
 
     // 释放进程树
     free_process_tree(root);
