@@ -17,7 +17,7 @@ struct Process {
     int ppid;
     char name[64]; // 为 name 字段分配内存
     int child_count;
-    struct Process* children;
+    struct Process** children;
 };
 
 // 定义 Process 类型的别名
@@ -25,23 +25,24 @@ typedef struct Process Process;
 
 Process* processList;
 
-void printTree(Process* tree, int indent)
+void printTree(Process* root, int level)
 {
-    printf("%*s%d %s\n", indent, "", tree->pid, tree->name);
-    for (int i = 0; i < tree->child_count; i++) {
-        printTree(&tree->children[i], indent + 2);
+    for (int i = 0; i < level; i++) {
+        printf("  ");
+    }
+    printf("%d %s\n", root->pid, root->name);
+    for (int i = 0; i < root->child_count; i++) {
+        print_tree(root->children[i], level + 1);
     }
 }
 
-void free_process_tree(Process* process)
+void free_process_tree(Process* root)
 {
-    if (!process)
-        return;
-    free(process);
-    // 递归释放子进程
-    for (int i = 0; i < process->child_count; i++)
-        free_process_tree(&process->children[i]);
-    free(process->children);
+    for (int i = 0; i < root->child_count; i++) {
+        free_tree(root->children[i]);
+    }
+    free(root->children);
+    free(root);
 }
 
 int get_process_list(struct Process* process_List, int max_count)
@@ -122,34 +123,47 @@ int get_process_list(struct Process* process_List, int max_count)
     return count;
 }
 
-Process* buildTree(Process* processList, int count)
+int find_process(int pid, struct Process* processList, int num_processes)
 {
-    Process* root = NULL;
-    Process* pointer = root;
-    // 遍历进程列表
-    for (int i = 0; i < count; i++) {
-        Process* process = &processList[i];
-        if (process->pid == 1) {
-            root = process;
-            pointer = root;
-            continue;
+    for (int i = 0; i < num_processes; i++) {
+        if (processList[i].pid == pid) {
+            return i;
         }
-        // 遍历进程列表，查找父进程
-        for (int j = 0; j < count; j++) {
-            Process* parent = &processList[j];
-            if (process->ppid == parent->pid) {
-                // 找到父进程，将子进程添加到父进程的 children 字段中
+    }
+    return -1;
+}
+
+struct Process* build_tree(struct Process* processList, int num_processes)
+{
+    // Find the root process
+    int root_index = -1;
+    for (int i = 0; i < num_processes; i++) {
+        if (processList[i].ppid == 0) {
+            root_index = i;
+            break;
+        }
+    }
+    if (root_index == -1) {
+        return NULL; // No root process found
+    }
+
+    // Add the children to the tree
+    struct Process* root = &processList[root_index];
+    for (int i = 0; i < num_processes; i++) {
+        int child_ppid = processList[i].ppid;
+        if (child_ppid == root->pid) {
+            root->children[root->child_count] = &processList[i];
+            root->child_count++;
+        } else {
+            int parent_index = find_process(child_ppid, processList, num_processes);
+            if (parent_index != -1) {
+                struct Process* parent = &processList[parent_index];
+                parent->children[parent->child_count] = &processList[i];
                 parent->child_count++;
-                parent->children = realloc(parent->children, sizeof(Process) * parent->child_count);
-                parent->children[parent->child_count - 1] = *process;
-                if (parent->pid == pointer->pid) {
-                    pointer->children = parent->children;
-                    pointer = process;
-                }
-                break;
             }
         }
     }
+
     return root;
 }
 
@@ -162,7 +176,7 @@ bool showPid()
     if (count == 0)
         return false;
 
-    Process* root = buildTree(processList, count);
+    Process* root = build_tree(processList, count);
 
     // 输出进程树
     printTree(root, 0);
