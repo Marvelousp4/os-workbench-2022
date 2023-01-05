@@ -32,14 +32,14 @@ void printTree(Process* root, int level)
     }
     printf("%d %s\n", root->pid, root->name);
     for (int i = 0; i < root->child_count; i++) {
-        print_tree(root->children[i], level + 1);
+        printTree(root->children[i], level + 1);
     }
 }
 
 void free_process_tree(Process* root)
 {
     for (int i = 0; i < root->child_count; i++) {
-        free_tree(root->children[i]);
+        free_process_tree(root->children[i]);
     }
     free(root->children);
     free(root);
