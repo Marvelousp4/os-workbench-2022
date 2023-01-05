@@ -133,6 +133,17 @@ int find_process(int pid, struct Process* processList, int num_processes)
     return -1;
 }
 
+struct Process* create_node(int pid, int ppid, char* name)
+{
+    struct Process* node = malloc(sizeof(struct Process));
+    node->pid = pid;
+    node->ppid = ppid;
+    strcpy(node->name, name);
+    node->child_count = 0;
+    node->children = malloc(sizeof(struct Process*) * MAX_PROCESS);
+    return node;
+}
+
 struct Process* build_tree(struct Process* processList, int num_processes)
 {
     // Find the root process
@@ -148,17 +159,17 @@ struct Process* build_tree(struct Process* processList, int num_processes)
     }
 
     // Add the children to the tree
-    struct Process* root = &processList[root_index];
+    struct Process* root = create_node(processList[root_index].pid, processList[root_index].ppid, processList[root_index].name);
     for (int i = 0; i < num_processes; i++) {
         int child_ppid = processList[i].ppid;
         if (child_ppid == root->pid) {
-            root->children[root->child_count] = &processList[i];
+            root->children[root->child_count] = create_node(processList[i].pid, processList[i].ppid, processList[i].name);
             root->child_count++;
         } else {
             int parent_index = find_process(child_ppid, processList, num_processes);
             if (parent_index != -1) {
-                struct Process* parent = &processList[parent_index];
-                parent->children[parent->child_count] = &processList[i];
+                struct Process* parent = root->children[parent_index];
+                parent->children[parent->child_count] = create_node(processList[i].pid, processList[i].ppid, processList[i].name);
                 parent->child_count++;
             }
         }
